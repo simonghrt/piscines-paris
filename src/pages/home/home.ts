@@ -27,8 +27,8 @@ export class HomePage {
   ionViewDidLoad() {
     this.piscineService.getPiscines()
     .subscribe((data) => {
-      this.piscines = data;
       console.log(data);
+      this.piscines = data;
     })
     this.loadMap();
   }
