@@ -11,9 +11,9 @@
   <p>
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
   </p>
-  <div *ngFor="let piscine in piscines">
+  <ion-item *ngFor="let piscine of piscines">
     {{piscine}}
-  </div>
+  </ion-item>
   <div id="map_canvas">
     <button ion-button (click)="onButtonClick($event)">Demo</button>
   </div>
