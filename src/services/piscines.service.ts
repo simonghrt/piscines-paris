@@ -13,13 +13,18 @@ export class PiscineService {
   private limit: number = 500;
   private order: string = "name%20ASC";
 
+  private piscines: any[];
+
   makeUrl(): string {
     return this.piscineQueryUrl + "?m_tid=" + this.equipmentId + "&limit=" + this.limit +
       "&order=" + this.order + "&lat=" + this.lat + "&lon=" + this.lon;
   }
 
   getPiscines(): Observable<any> {
+    // TODO Should just return the piscines
     let url = this.makeUrl();
     return this.http.get<any[]>(url);
   }
+
+  // requestPiscines()
 }

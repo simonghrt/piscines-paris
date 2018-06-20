@@ -9,13 +9,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MapPiscine } from '../components/map/map';
 import { ListPiscine } from '../components/list/list';
+import { OptionsComponent } from '../components/options/options';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     MapPiscine,
-    ListPiscine
+    ListPiscine,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,8 @@ import { ListPiscine } from '../components/list/list';
     MyApp,
     HomePage,
     MapPiscine,
-    ListPiscine
+    ListPiscine,
+    OptionsComponent
   ],
   providers: [
     StatusBar,
