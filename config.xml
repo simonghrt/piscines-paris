@@ -86,4 +86,7 @@
         <variable name="API_KEY_FOR_IOS" value="AIzaSyC3im7JEtVYnT5MK0UozgUTzdN-ICtEsM8" />
     </plugin>
     <engine name="ios" spec="~4.5.4" />
+    <engine name="android" spec="~7.0.0" />
+    <allow-navigation href="http://192.168.0.10:8100" />
+    <allow-navigation href="http://192.168.1.13:8100" />
 </widget>

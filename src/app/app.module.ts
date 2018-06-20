@@ -7,11 +7,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { MapPiscine } from '../components/map/map';
+import { ListPiscine } from '../components/list/list';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    MapPiscine,
+    ListPiscine
   ],
   imports: [
     BrowserModule,
@@ -21,7 +25,9 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    MapPiscine,
+    ListPiscine
   ],
   providers: [
     StatusBar,

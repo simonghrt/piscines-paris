@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
-} from '@ionic-native/google-maps';
 import { PiscineService } from '../../services/piscines.service';
+import { MapPiscine } from '../../components/map/map';
+import { ListPiscine } from '../../components/list/list';
 
 @Component({
   selector: 'page-home',
@@ -17,49 +10,22 @@ import { PiscineService } from '../../services/piscines.service';
   providers: [PiscineService]
 })
 export class HomePage {
-  map: GoogleMap;
   piscines: any[] = [];
+  tab1: any;
+  tab2: any;
 
   constructor(public navCtrl: NavController, public piscineService: PiscineService) {
-
+    this.tab1 = MapPiscine;
+    this.tab2 = ListPiscine;
   }
 
   ionViewDidLoad() {
+    // Error there, why ?
     this.piscineService.getPiscines()
     .subscribe((data) => {
-      console.log(data);
       this.piscines = data;
-    })
-    this.loadMap();
+    }, (err) => {
+      console.log("error :" + err);
+    });
   }
-
-  loadMap() {
-
-    let mapOptions: GoogleMapOptions = {
-      camera: {
-         target: {
-           lat: 43.0741904,
-           lng: -89.3809802
-         },
-         zoom: 18,
-         tilt: 30
-       }
-    };
-
-    this.map = GoogleMaps.create('map_canvas', mapOptions);
-
-    // let marker: Marker = this.map.addMarkerSync({
-    //   title: 'Ionic',
-    //   icon: 'blue',
-    //   animation: 'DROP',
-    //   position: {
-    //     lat: 43.0741904,
-    //     lng: -89.3809802
-    //   }
-    // });
-    // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-    //   alert('clicked');
-    // });
-  }
-
 }
