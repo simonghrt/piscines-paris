@@ -10,4 +10,9 @@ export class OptionsComponent {
 
   ionViewDidLoad() {
   }
+
+  toggleOpen() {
+  }
+
+  updateLoc() {}
 }

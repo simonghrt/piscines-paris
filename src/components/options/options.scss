@@ -1,11 +1,12 @@
 options {
   .option-button {
     width: 100%;
-    background-color: blue;
+    background-color: #488aff;
     height: 35px;
     position: relative;
 
     p {
+      color: white;
       margin: 0;
       position: absolute;
       top: 50%;

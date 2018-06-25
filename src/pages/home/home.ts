@@ -20,11 +20,11 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    // Error there, why ?
-    this.piscineService.getPiscines()
-    .subscribe((data) => {
-      this.piscines = data;
-    }, (err) => {
+    this.piscineService.requestPiscines()
+    .then((details) => {
+      this.piscines = this.piscineService.getPiscines()
+    })
+    .catch((err) => {
       console.log("error :" + err);
     });
   }

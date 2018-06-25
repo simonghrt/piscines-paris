@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class PiscineService {
@@ -8,23 +9,39 @@ export class PiscineService {
 
   private piscineQueryUrl: string = "https://meslieux.paris.fr/proxy/data/get/equipements/get_equipements";
   private equipmentId: string = "27";
-  private lat: string = "48.8742";
-  private lon: string = "2.38";
+  private lat: number = 48.866667;
+  private lng: number = 2.333333;
   private limit: number = 500;
   private order: string = "name%20ASC";
 
-  private piscines: any[];
+  private urlComplete: string;
 
-  makeUrl(): string {
-    return this.piscineQueryUrl + "?m_tid=" + this.equipmentId + "&limit=" + this.limit +
-      "&order=" + this.order + "&lat=" + this.lat + "&lon=" + this.lon;
+  private piscines: any[] = [];
+
+  makeUrl(): void {
+    this.urlComplete = this.piscineQueryUrl + "?m_tid=" + this.equipmentId + "&limit=" + this.limit +
+      "&order=" + this.order + "&lat=" + this.lat + "&lon=" + this.lng;
   }
 
-  getPiscines(): Observable<any> {
-    // TODO Should just return the piscines
-    let url = this.makeUrl();
-    return this.http.get<any[]>(url);
+  updateLoc(lat: number, lng: number): Promise<any> {
+    this.lat = lat;
+    this.lng = lng;
+    return this.requestPiscines();
   }
 
-  // requestPiscines()
+  getPiscines(): any[] {
+    return this.piscines;
+  }
+
+  // TODO Use Observable instead of promise
+  requestPiscines(): Promise<any> {
+    // TODO Make a promise or something like this with the makeUrl
+    this.makeUrl();
+    return this.http.get<any[]>(this.urlComplete).toPromise()
+    .then((data) => {
+      this.piscines = data;
+    }, (err) => {
+      console.log("error :" + err);
+    });
+  }
 }

@@ -6,9 +6,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="no-scroll">
   <options></options>
-  <ion-item *ngFor="let piscine of piscines">
-    {{piscine.name}}
-  </ion-item>
+  <ion-scroll scrollY="true">
+    <ion-item *ngFor="let piscine of piscines">
+      {{piscine.name}}
+    </ion-item>
+  </ion-scroll>
 </ion-content>

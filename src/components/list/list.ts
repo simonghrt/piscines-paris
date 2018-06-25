@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import { PiscineService } from '../../services/piscines.service';
 
 @Component({
   selector: 'list',
@@ -8,18 +9,25 @@ import { NavController, NavParams } from 'ionic-angular';
 export class ListPiscine {
   piscines: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.piscines = this.navParams.data;
-    this.piscines = [
-      {
-        "name": "Hello"
-      },
-      {
-        "name": "Boum"
-      }
-    ];
+  constructor(public navCtrl: NavController, public piscineService: PiscineService) {
   }
 
   ionViewDidLoad() {
+    this.piscines = this.piscineService.getPiscines();
+    // this.piscines = [
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"},
+    //   {"name": "Hello world"}
+    // ];
   }
 }
