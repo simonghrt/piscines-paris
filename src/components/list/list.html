@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content class="no-scroll">
-  <options></options>
+  <options (filterOpen)="onFilterOpen($event)" [isOpenNow]="isOpenNow"></options>
   <ion-scroll scrollY="true">
     <ion-item *ngFor="let piscine of piscines">
       {{piscine.name}}

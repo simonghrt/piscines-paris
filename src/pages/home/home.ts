@@ -10,22 +10,15 @@ import { ListPiscine } from '../../components/list/list';
   providers: [PiscineService]
 })
 export class HomePage {
-  piscines: any[] = [];
   tab1: any;
   tab2: any;
+
+  isOpenNow: boolean = false;
 
   constructor(public navCtrl: NavController, public piscineService: PiscineService) {
     this.tab1 = MapPiscine;
     this.tab2 = ListPiscine;
   }
 
-  ionViewDidLoad() {
-    this.piscineService.requestPiscines()
-    .then((details) => {
-      this.piscines = this.piscineService.getPiscines()
-    })
-    .catch((err) => {
-      console.log("error :" + err);
-    });
-  }
+  ionViewDidLoad() {}
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, GoogleMapOptions } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { NativeStorage } from '@ionic-native/native-storage';
 import { PiscineService } from '../../services/piscines.service';
 
 @Component({
@@ -13,31 +14,50 @@ export class MapPiscine {
   piscines: any[];
   lat: number = 48.866667;
   lng: number = 2.333333;
+  isOpenNow: boolean = false;
 
-  constructor(public navCtrl: NavController, public piscineService: PiscineService,
-    public geolocation: Geolocation) {
-    // Think about the whole lifecycle (constructor isn't probably the good place for loadMap)
+  constructor(public navCtrl: NavController, public nativeStorage: NativeStorage,
+    public piscineService: PiscineService, public geolocation: Geolocation) {
+
+    // TODO Only when click on position
     this.geolocation.getCurrentPosition().then((position) => {
       this.lat = position.coords.latitude;
       this.lng = position.coords.longitude;
       this.loadMap();
       this.piscineService.updateLoc(this.lat, this.lng)
-      .then(() => {
+      .then((piscines) => {
+        this.piscines = piscines;
         this.loadMarkers();
       });
     })
     .catch((err) => {
       console.log("Current position not available");
     });
+    this.loadMap();
   }
 
   ionViewDidLoad() {
-    this.loadMap();
-    this.piscines = this.piscineService.getPiscines();
+    this.piscineService.requestPiscines()
+    .then((piscines) => {
+      this.piscines = piscines;
+      this.loadMarkers();
+    })
+    .catch((err) => {
+      console.log("error :" + err);
+    });
   }
 
-  loadMap() {
+  ionViewDidEnter() {
+    this.nativeStorage.getItem('isOpenNow')
+    .then((isOpenNow) => {
+      this.isOpenNow = isOpenNow;
+      this.changePiscines(isOpenNow);
+      this.loadMarkers();
+    });
+  }
 
+  // TODO Make a promise
+  loadMap() {
     let mapOptions: GoogleMapOptions = {
       camera: {
          target: {
@@ -50,17 +70,25 @@ export class MapPiscine {
 
     this.map = GoogleMaps.create('map_canvas', mapOptions);
 
-    this.map.on(GoogleMapsEvent.CAMERA_MOVE_END).subscribe((params: any[]) => {
-      let latLng: any = params[0];
-      alert(latLng + " is clicked!");
-    });
+    // Maybe not useful to do this
+    // this.map.on(GoogleMapsEvent.CAMERA_MOVE_END).subscribe((params: any[]) => {
+    //   if (params[0] && params[0]["target"]) {
+    //     this.lat = params[0]["target"]["lat"];
+    //     this.lng = params[0]["target"]["lng"];
+    //     this.piscineService.updateLoc(this.lat, this.lng)
+    //     .then(() => {
+    //       this.loadMarkers();
+    //     });
+    //   }
+    // });
   }
 
   loadMarkers() {
+    this.map.clear();
     this.piscines.forEach((piscine) => {
-      // We can get the marker or a promise with this marker
+      // TODO Mettre infos à propos de piscine
       this.map.addMarkerSync({
-        title: piscine.name,
+        title: piscine.name + ' - ' + piscine.address + ' ' + piscine.zip_code,
         icon: 'blue',
         animation: 'DROP',
         position: {
@@ -69,5 +97,23 @@ export class MapPiscine {
         }
       });
     });
+  }
+
+  onFilterOpen(openNow: boolean) {
+    this.nativeStorage.setItem('isOpenNow', openNow)
+    .then(() => {
+      this.isOpenNow = openNow;
+      this.changePiscines(openNow);
+      this.loadMarkers();
+    });
+  }
+
+  changePiscines(openNow: boolean) {
+    if (openNow) {
+      this.piscineService.filterOpenPiscines();
+      this.piscines = this.piscineService.getPiscinesNow();
+    } else {
+      this.piscines = this.piscineService.getPiscines();
+    }
   }
 }

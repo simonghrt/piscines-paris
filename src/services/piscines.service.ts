@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 // import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
 
+import * as moment from 'moment';
+
 @Injectable()
 export class PiscineService {
   constructor(private http:HttpClient) {}
@@ -17,6 +19,9 @@ export class PiscineService {
   private urlComplete: string;
 
   private piscines: any[] = [];
+  private piscinesNow: any[] = [];
+  
+  public isOpenNow: boolean = false;
 
   makeUrl(): void {
     this.urlComplete = this.piscineQueryUrl + "?m_tid=" + this.equipmentId + "&limit=" + this.limit +
@@ -29,8 +34,35 @@ export class PiscineService {
     return this.requestPiscines();
   }
 
+  // TODO Faire ça en promise
+  filterOpenPiscines(): any[] {
+    let piscinesNow: any[] = [];
+    let nowDate = moment().format("YYYY-MM-DD");
+    let nowHour = moment().format("HH:mm:ss");
+    this.piscines.forEach((piscine) => {
+      if (piscine["calendars"] && piscine["calendars"][nowDate] && piscine["calendars"][nowDate][0]) {
+        let dayTimes: any = piscine["calendars"][nowDate][0];
+        let isOpen: boolean = false;
+        dayTimes.forEach((dayTime) => {
+          if (dayTime[0] != "closed" && moment(nowHour).isBetween(dayTime[0], dayTime[1])) {
+            isOpen = true;
+          }
+        });
+        if (isOpen) {
+          piscinesNow.push(piscine);
+        }
+      }
+    });
+    this.piscinesNow = piscinesNow;
+    return piscinesNow;
+  }
+
   getPiscines(): any[] {
     return this.piscines;
+  }
+
+  getPiscinesNow(): any[] {
+    return this.piscinesNow;
   }
 
   // TODO Use Observable instead of promise
@@ -38,10 +70,14 @@ export class PiscineService {
     // TODO Make a promise or something like this with the makeUrl
     this.makeUrl();
     return this.http.get<any[]>(this.urlComplete).toPromise()
-    .then((data) => {
-      this.piscines = data;
+    .then((piscines) => {
+      this.piscines = piscines;
+      return Promise.resolve(piscines);
     }, (err) => {
-      console.log("error :" + err);
+      return Promise.reject(err);
+    })
+    .catch((err) => {
+      return Promise.reject(err);
     });
   }
 }

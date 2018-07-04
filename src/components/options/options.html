@@ -1,9 +1,9 @@
-<div class="option-button" (click)="toggleOpen()">
+<div class="option-button" (click)="toggleOpen()" [ngClass]="{'selected': isOpenNow}">
   <p>
     Ouvert maintenant
   </p>
 </div>
-<div class="option-button" (click)="updateLoc()">
+<div class="option-button selected" (click)="updateLoc()">
   <p>
     A proximité
   </p>
