@@ -12,6 +12,8 @@ import { HomePage } from '../pages/home/home';
 import { MapPiscine } from '../components/map/map';
 import { ListPiscine } from '../components/list/list';
 import { OptionsComponent } from '../components/options/options';
+import { DistanceCoordsPipe } from '../pipes/distance.pipe';
+import { ShortenPipe } from '../pipes/shorten.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { OptionsComponent } from '../components/options/options';
     HomePage,
     MapPiscine,
     ListPiscine,
-    OptionsComponent
+    OptionsComponent,
+    DistanceCoordsPipe,
+    ShortenPipe
   ],
   imports: [
     BrowserModule,

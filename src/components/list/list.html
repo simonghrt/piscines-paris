@@ -10,7 +10,11 @@
   <options (filterOpen)="onFilterOpen($event)" [isOpenNow]="isOpenNow"></options>
   <ion-scroll scrollY="true">
     <ion-item *ngFor="let piscine of piscines">
-      {{piscine.name}}
+      <p>
+        {{piscine.name}} - {{ lat | distanceCoords:lng:piscine.lat:piscine.lon | shorten:5 }}km
+        <br />
+        {{piscine.address + ' ' + piscine.zip_code}}
+      </p>
     </ion-item>
   </ion-scroll>
 </ion-content>

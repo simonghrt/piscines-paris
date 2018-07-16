@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { Geolocation } from '@ionic-native/geolocation';
 import { PiscineService } from '../../services/piscines.service';
 
 @Component({
@@ -10,9 +11,18 @@ import { PiscineService } from '../../services/piscines.service';
 export class ListPiscine {
   piscines: any[];
   isOpenNow: boolean = false;
+  lat: number = 48.866667;
+  lng: number = 2.333333;
 
   constructor(public navCtrl: NavController, public nativeStorage: NativeStorage,
-    public piscineService: PiscineService) {
+    public piscineService: PiscineService, public geolocation: Geolocation) {
+      this.geolocation.getCurrentPosition().then((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+      })
+      .catch((err) => {
+        console.log("Current position not available");
+      });
   }
 
   ionViewDidLoad() {
