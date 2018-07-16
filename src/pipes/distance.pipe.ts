@@ -3,10 +3,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'distanceCoords'})
 export class DistanceCoordsPipe implements PipeTransform {
   transform(lat: number, lng: number, lat2: number, lng2: number): string {
-    // alert(lat);
-    // alert(lng);
-    // alert(lat2);
-    // alert(this.distanceInKmBetweenEarthCoordinates(34.64, 34.77, 45.87, 55.23));
     return this.distanceInKmBetweenEarthCoordinates(lat, lng, lat2, lng2).toString();
   }
 
@@ -15,7 +11,6 @@ export class DistanceCoordsPipe implements PipeTransform {
   }
 
   distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
-    // alert(lat1);
     let earthRadiusKm = 6371;
 
     let dLat = this.degreesToRadians(lat2-lat1);
