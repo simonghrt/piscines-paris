@@ -38,14 +38,18 @@ export class PiscineService {
   filterOpenPiscines(): any[] {
     let piscinesNow: any[] = [];
     let nowDate = moment().format("YYYY-MM-DD");
-    let nowHour = moment().format("HH:mm:ss");
+    // let nowHour = moment().format("HH:mm:ss");
     this.piscines.forEach((piscine) => {
       if (piscine["calendars"] && piscine["calendars"][nowDate] && piscine["calendars"][nowDate][0]) {
-        let dayTimes: any = piscine["calendars"][nowDate][0];
+        let dayTimes: any = piscine["calendars"][nowDate];
         let isOpen: boolean = false;
         dayTimes.forEach((dayTime) => {
-          if (dayTime[0] != "closed" && moment(nowHour).isBetween(dayTime[0], dayTime[1])) {
-            isOpen = true;
+          if (moment(dayTime[0], "HH:mm:ss").isValid() && moment(dayTime[1], "HH:mm:ss").isValid()) {
+            let before = moment(dayTime[0], "HH:mm:ss");
+            let after = moment(dayTime[1], "HH:mm:ss");
+            if (dayTime[0] != "closed" && moment().isBetween(before, after)) {
+              isOpen = true;
+            }  
           }
         });
         if (isOpen) {
