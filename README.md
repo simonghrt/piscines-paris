@@ -50,11 +50,11 @@ Follow the instructions on the Android website
 
 List with open swimming pools in Paris
 
-![list](img/list.jpg =200x)
+<img src="img/list.jpg" alt="list" width="200"/>
 
 Map with swimming pools in Paris
 
-![map](img/map.jpg =200x)
+<img src="img/map.jpg" alt="map" width="200"/>
 
 ### Troubleshoot
 
