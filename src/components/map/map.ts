@@ -51,8 +51,10 @@ export class MapPiscine {
     this.nativeStorage.getItem('isOpenNow')
     .then((isOpenNow) => {
       this.isOpenNow = isOpenNow;
-      this.changePiscines(isOpenNow);
-      this.loadMarkers();
+      this.changePiscines(isOpenNow)
+      .then(() => {
+        this.loadMarkers();
+      });
     });
   }
 
@@ -103,17 +105,25 @@ export class MapPiscine {
     this.nativeStorage.setItem('isOpenNow', openNow)
     .then(() => {
       this.isOpenNow = openNow;
-      this.changePiscines(openNow);
-      this.loadMarkers();
+      this.changePiscines(openNow)
+      .then(() => {
+        this.loadMarkers();
+      });
     });
   }
 
-  changePiscines(openNow: boolean) {
+  changePiscines(openNow: boolean): Promise<any> {
     if (openNow) {
       this.piscineService.filterOpenPiscines();
-      this.piscines = this.piscineService.getPiscinesNow();
+      return this.piscineService.getPiscinesNow()
+      .then((piscines) => {
+        this.piscines = piscines;
+      });
     } else {
-      this.piscines = this.piscineService.getPiscines();
+      return this.piscineService.getPiscines()
+      .then((piscines) => {
+        this.piscines = piscines;
+      });
     }
   }
 }

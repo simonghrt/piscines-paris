@@ -61,12 +61,12 @@ export class PiscineService {
     return piscinesNow;
   }
 
-  getPiscines(): any[] {
-    return this.piscines;
+  getPiscines(): Promise<any[]> {
+    return Promise.resolve(this.piscines);
   }
 
-  getPiscinesNow(): any[] {
-    return this.piscinesNow;
+  getPiscinesNow(): Promise<any[]> {
+    return Promise.resolve(this.piscinesNow);
   }
 
   // TODO Use Observable instead of promise

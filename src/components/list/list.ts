@@ -54,9 +54,16 @@ export class ListPiscine {
   changePiscines(openNow: boolean) {
     if (openNow) {
       this.piscineService.filterOpenPiscines();
-      this.piscines = this.piscineService.getPiscinesNow();
+      this.piscineService.getPiscinesNow()
+      .then((piscines) => {
+        this.piscines = piscines;
+      });
     } else {
-      this.piscines = this.piscineService.getPiscines();
+      this.piscineService.getPiscines()
+      .then((piscines) => {
+        this.piscines = piscines;
+      });
+
     }
   }
 }
