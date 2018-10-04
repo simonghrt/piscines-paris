@@ -50,11 +50,11 @@ Follow the instructions on the Android website
 
 List with open swimming pools in Paris
 
-![list](img/list.jpg)
+![list](img/list.jpg =200x)
 
 Map with swimming pools in Paris
 
-![map](img/map.jpg)
+![map](img/map.jpg =200x)
 
 ### Troubleshoot
 
