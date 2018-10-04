@@ -46,6 +46,16 @@ Follow the instructions on the Android website
 * Add better linter (all functions with returned types, ..)
 * Add comments
 
+### Screenshots
+
+List with open swimming pools in Paris
+
+![list](img/list.jpg)
+
+Map with swimming pools in Paris
+
+![map](img/map.jpg)
+
 ### Troubleshoot
 
 ##### Error Missing Translation
