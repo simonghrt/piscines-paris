@@ -28,9 +28,19 @@ Follow the instructions on the Android website
 
 ### TODO
 
-* Add possibility to open with Google maps
+##### Functional
+
 * Add sorting depending on distance
-* Add closing hour
+* Add hours on map when click on a swimming pool
+* Add proximity button and update loc (recenter on your current loc)
+* Add marker with personal location
+* Resolve bug for open now in the map
+* Better design for the list
+* Change app icon
+* Change markers in map
+
+##### Structure 
+
 * Add states (flux architecture)
 * Use Promises
 * Add better linter (all functions with returned types, ..)
